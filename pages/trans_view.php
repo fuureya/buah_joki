@@ -143,7 +143,7 @@ while ($row = mysqli_fetch_assoc($result)) {
 
 
   <div class="col-12 mt-4 pb-5 d-flex justify-content-end pr-4">
-    <button href="anjay" class="btn btn-danger" onclick="window.open('cetak.php' , '__blank')">Cetak Tagihan</button>
+    <a href="cetak.php?id=<?= $_GET['id'] ?>" class="btn btn-danger">Cetak Tagihan</a>
   </div>
 
 </div>
