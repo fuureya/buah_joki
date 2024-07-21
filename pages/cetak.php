@@ -14,7 +14,6 @@ $imageUrl = 'tempqr/barcode.png';
 $imageData = file_get_contents($imageUrl);
 $base64Image = base64_encode($imageData);
 
-
 $penyimpanan = "tempqr/";
 if (!file_exists($penyimpanan))
     mkdir($penyimpanan);
