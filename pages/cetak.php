@@ -6,9 +6,19 @@ use Dompdf\Dompdf;
 use Dompdf\Options;
 
 include '../includes/connection.php';
+include "../library/phpqrcode/qrlib.php";
 
-// Fetch data for the PDF
 $id = $_GET['id'];
+$isi = (empty($_SERVER['HTTPS']) ? 'http' : 'https') . "://$_SERVER[HTTP_HOST]$_SERVER[REQUEST_URI]";
+$imageUrl = 'tempqr/barcode.png';
+$imageData = file_get_contents($imageUrl);
+$base64Image = base64_encode($imageData);
+
+
+$penyimpanan = "tempqr/";
+if (!file_exists($penyimpanan))
+    mkdir($penyimpanan);
+QRcode::png($isi, $penyimpanan . "barcode.png");
 
 $query = 'SELECT *, FIRST_NAME, LAST_NAME, PHONE_NUMBER, EMPLOYEE, ROLE
           FROM transaction T
@@ -130,12 +140,19 @@ $html = '<html><head><style>
         cursor: pointer;
         text-decoration: none;
     }
+
+  .qrcode {
+    width: 200px;
+    height: 200px;
+    margin: 0 auto;
+    float: right;
+}
+
+
 </style></head><body>';
 
 $html .= '<div class="card shadow mb-4">
     <div class="card-body">
-       
-        
         <table class="table table-bordered" width="100%" cellspacing="0">
             <thead>
                 <tr>
@@ -146,6 +163,7 @@ $html .= '<div class="card shadow mb-4">
                 </tr>
             </thead>
             <tbody>';
+
 foreach ($transaction_details as $detail) {
     $Sub =  $detail['QTY'] * $detail['PRICE'];
     $html .= '<tr>';
@@ -155,6 +173,7 @@ foreach ($transaction_details as $detail) {
     $html .= '<td>' . $Sub . '</td>';
     $html .= '</tr>';
 }
+
 $html .= '</tbody>
         </table>
         <div class="form-group row text-left mb-0 py-2">
@@ -166,26 +185,34 @@ $html .= '</tbody>
                     <tr>
                         <td class="font-weight-bold">Subtotal</td>
                         <td class="text-right">Rp ' . $sub . '</td>
+                        <td></td>
                     </tr>
                     <tr>
                         <td class="font-weight-bold">Less VAT</td>
                         <td class="text-right">Rp ' . $less . '</td>
+                        <td></td>
                     </tr>
                     <tr>
                         <td class="font-weight-bold">Net of VAT</td>
                         <td class="text-right">Rp ' . $net . '</td>
+                        <td></td>
                     </tr>
                     <tr>
                         <td class="font-weight-bold">Add VAT</td>
                         <td class="text-right">Rp ' . $add . '</td>
+                        <td></td>
                     </tr>
                     <tr>
                         <td class="font-weight-bold">Total</td>
                         <td class="font-weight-bold text-right text-primary">Rp ' . $grand . '</td>
+                        <td></td>
                     </tr>
-                </table>
+                </table>    
             </div>
-            <div class="col-sm-1 py-1"></div>
+            
+            <div class="col-sm-1 py-1 qrcode">
+               <img src="data:image/png;base64,' . $base64Image . '">
+            </div>
         </div>
     </div>
 </div>';
