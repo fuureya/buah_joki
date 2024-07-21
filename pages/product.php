@@ -51,6 +51,7 @@ $sup .= "</select>";
       <table class="table table-bordered" id="dataTable" width="100%" cellspacing="0">
         <thead>
           <tr>
+            <th>Gambar</th>
             <th>Product Code</th>
             <th>Name</th>
             <th>Price</th>
@@ -61,12 +62,13 @@ $sup .= "</select>";
         <tbody>
 
           <?php
-          $query = 'SELECT PRODUCT_ID, PRODUCT_CODE, NAME, PRICE, CNAME, DATE_STOCK_IN FROM product p join category c on p.CATEGORY_ID=c.CATEGORY_ID ';
+          $query = 'SELECT PRODUCT_ID, gambar, PRODUCT_CODE, NAME, PRICE, CNAME, DATE_STOCK_IN FROM product p join category c on p.CATEGORY_ID=c.CATEGORY_ID ';
           $result = mysqli_query($db, $query) or die(mysqli_error($db));
 
           while ($row = mysqli_fetch_assoc($result)) {
 
             echo '<tr>';
+            echo '<td><img class="w-25" src="../img/upload/' . (!empty($row['gambar']) ? $row['gambar'] : 'default.png') . '"></td>';
             echo '<td>' . $row['PRODUCT_CODE'] . '</td>';
             echo '<td>' . $row['NAME'] . '</td>';
             echo '<td>' . $row['PRICE'] . '</td>';
