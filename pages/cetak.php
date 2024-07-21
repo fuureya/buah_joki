@@ -122,6 +122,7 @@ $html = '<html><head><style>
     .table tbody + tbody {
         border-top: 2px solid #dee2e6;
     }
+
     .btn {
         display: inline-block;
         font-weight: 400;
@@ -141,13 +142,12 @@ $html = '<html><head><style>
         text-decoration: none;
     }
 
-  .qrcode {
-    width: 200px;
-    height: 200px;
-    margin: 0 auto;
-    float: right;
-}
-
+    .qrcode {
+        width: 200px;
+        height: 200px;
+        margin: 0 auto;
+        float: right;
+    }
 
 </style></head><body>';
 
