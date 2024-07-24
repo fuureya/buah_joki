@@ -39,7 +39,7 @@ while ($row = mysqli_fetch_assoc($result)) {
     $grand = $row['GRANDTOTAL'];
     $role = $row['EMPLOYEE'];
     $roles = $row['ROLE'];
-}
+}   
 
 // Fetch transaction details
 $transaction_details = [];
